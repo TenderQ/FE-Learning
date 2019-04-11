@@ -71,14 +71,14 @@
                 }
             }, function(error) {
                 if (typeof onRejected === 'function') {
-					try {
-						return resolve(onRejected(error))
-					} catch(err) {
-						return reject(err)
-					}
-				} else {
-					return reject(error)
-				}
+                    try {
+                        return resolve(onRejected(error))
+                    } catch(err) {
+                        return reject(err)
+                    }
+                } else {
+                    return reject(error)
+                }
             })
         })
     }
