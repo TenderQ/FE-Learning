@@ -7,30 +7,112 @@
 
 ## 对MVVM的理解
 
-- Model(模型、数据) - javascript
-- View(视图) - DOM
-- ViewModel(视图模型) - DOM Listeners & data Bindings
+- `Model`(模型、数据) - javascript
+- `View`(视图) - DOM
+- `ViewModel`(视图模型) - DOM Listeners & data Bindings
 
 ## Vue响应式原理
 
 - 关键方法`Object.defineProperty`
-- vue将data初始化为一个Observer并对对象中的每个值，重写了其中的get、set方法，data中的每个key，都有一个独立的依赖收集器
-- 在get中，向依赖收集器添加了监听
-- 在mount时，实例了一个Watcher，将收集器的目标指向了当前Watcher
-- 在data值发生变更时，触发set，触发了依赖收集器中的所有监听的更新，来触发Watcher.update
+- `vue`将`data`初始化为一个`Observer`并对对象中的每个值，重写了其中的`get`、`set`方法，`data`中的每个`key`，都有一个独立的依赖收集器
+- 在`get`中，向依赖收集器添加了监听
+- 在`mount`时，实例了一个`Watcher`，将收集器的目标指向了当前`Watcher`
+- 在`data`值发生变更时，触发`set`，触发了依赖收集器中的所有监听的更新，来触发`Watcher.update`
 
 ## Vue如何解析模板
 
 模板的本质是字符串，有逻辑，可嵌入js变量
 
 - 模板转换为js代码
-- 模板最终走render函数
-- render函数执行是返回vnode
-- updateComponent
+- 模板最终走`render`函数
+- `render`函数执行是返回`vnode`
+- `updateComponent`
 
 ## Vue实现流程
 
-1. 解析模板成render函数
+1. 解析模板成`render`函数
 2. 响应式开始监听
 3. 首次渲染，显示页面，且绑定依赖
-4. data属性变化，触发rerender
+4. `data`属性变化，触发`rerender`
+
+## `Vue` 的生命周期和钩子函数
+
+Vue实例有一个完整的生命周期，也就是从**开始创建、初始化数据、编译模板、挂载Dom、渲染→更新→渲染、销毁**等一系列过程，我们称这是Vue的生命周期。通俗说就是Vue实例从创建到销毁的过程，就是生命周期。
+
+1. 实例、组件通过`new Vue()` 创建出来之后会初始化事件和生命周期(`init()`)，然后就会执行`beforeCreate`钩子函数，这个时候，数据还没有挂载，只是一个空壳，无法访问到数据和真实的`dom`，一般不做操作
+
+2. 挂载数据，绑定事件等等，然后执行`created`函数，这个时候已经可以使用到数据，也可以更改数据,在这里更改数据不会触发`updated`函数，在这里可以在渲染前倒数第二次更改数据的机会，不会触发其他的钩子函数，一般可以在这里做初始数据的获取
+
+3. 接下来开始找实例是否含有`el`选项，如果没有的话，就会调用`vm.$mount(el)`这个方法，紧接着会查找组件对应的模板（`template`），编译模板为虚拟`dom`放入到`render`函数中准备渲染，然后执行`beforeMount`钩子函数，在这个函数中虚拟`dom`已经创建完成，马上就要渲染,在这里也可以更改数据，不会触发`updated`，在这里可以在渲染前最后一次更改数据的机会，不会触发其他的钩子函数，一般可以在这里做初始数据的获取
+
+4. 接下来开始`render`，渲染出真实`dom`，然后执行`mounted`钩子函数，此时，组件已经出现在页面中，数据、真实`dom`都已经处理好了,事件都已经挂载好了，可以在这里操作真实`dom`等事情
+
+5. 当组件或实例的数据更改之后，会立即执行`beforeUpdate`，然后`vue`的虚拟`dom`机制会重新构建虚拟`dom`与上一次的虚拟`dom`树利用`diff`算法进行对比之后重新渲染，一般不做什么事儿
+
+6. 当更新完成后，执行`updated`，数据已经更改完成，`dom`也重新`render`完成，可以操作更新后的虚拟`dom`
+
+7. 当经过某种途径调用`$destroy`方法后，立即执行`beforeDestroy`，一般在这里做一些善后工作，例如清除计时器、清除非指令绑定的事件等等
+
+8. 组件的数据绑定、监听...去掉后只剩下`dom`空壳，这个时候，执行`destroyed`，在这里做善后工作也可以
+
+附Vue官网的图：
+
+![Vue生命周期](https://cn.vuejs.org/images/lifecycle.png)
+
+## Vue 中父子组件通讯的方式
+
+1. 通过`props`传递
+
+   这种是最常见也是最通用的做法，优点是简单，数据流单向、清晰；但是如果遇到深层次传递会造成维护上的困难
+
+2. `$parent` / `$children`
+  
+   这种方法其实并不属于数据的传递而是一种主动的查找，而且耦合的比上一种方法还要厉害，因为这个`$parent`只能取到当前父组件的数据，一旦这个组件放在别的页面用，就可能会出现取不到数据等问题，所以Vue不推荐使用
+
+3. `$emit` / `$on`
+
+   这种方法是最常用的子传父的方法
+
+4. `.sync` 修饰符
+
+   是一种类似`$on`的语法糖，它被扩展为一个自动更新父组件属性的 `v-on` 监听器。需要当子组件数据变更后把变更后的数据回传 `this.$emit('update:myPropName', newData)`，其中 `myPropName` 表示要更新的 `prop` 值
+
+5. `$refs`
+  
+   这个方法一般是用来调用子组件中的方法，很少用来取数据
+
+6. `provide` / `inject` 依赖注入
+
+   `provide` 和 `inject`（依赖注入） 主要为高阶插件/组件库提供用例。并不推荐直接用于应用程序代码中。并且这对选项需要一起使用，以允许一个祖先组件向其所有子孙后代注入一个依赖，不论组件层次有多深，并在起上下游关系成立的时间里始终生效。
+
+   通过`provide`传递的参数是非响应式的，但是如果你传的的是一个可监听的对象，那么其对象的属性还是可响应的。
+
+## Vue 中兄弟组件通讯的方式
+
+1. `EventBus`
+
+   思路就是声明一个全局`Vue`实例变量 `EventBus` , 把所有的通信数据，事件监听都存储到这个变量上，这样就达到在组件间数据共享了，有点类似于 `Vuex`,但这种方式只适用于极小的项目，复杂项目还是推荐 `Vuex`。
+
+   ``` javascript
+    // 声明一个EventBus全局变量
+    let EventBus = new Vue()
+
+    // 组件1
+    let Com1 = Vue.extend({
+        created () {
+            EventBus.$emit('received', 'from component1')
+        }
+    })
+
+    // 组件2
+    let Com2 = Vue.extend({
+        mounted () {
+            // from component1
+            EventBus.$on('received', (data) => { console.log(data) })
+        }
+    })
+   ```
+
+2. `Vuex`
+
+   官方推荐，`Vuex` 是一个专为 `Vue.js` 应用程序开发的状态管理模式

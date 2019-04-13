@@ -11,8 +11,8 @@
 
 [snabbdom](https://github.com/snabbdom/snabbdom)(vue2.0使用)
 
-- h函数
-- patch函数
+- `h`函数
+- `patch`函数
 
 ``` javascript
 var snabbdom = require('snabbdom');
