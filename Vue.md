@@ -116,3 +116,37 @@ Vue实例有一个完整的生命周期，也就是从**开始创建、初始化
 2. `Vuex`
 
    官方推荐，`Vuex` 是一个专为 `Vue.js` 应用程序开发的状态管理模式
+
+## Vue v-model语法糖解析
+
+``` html
+<input v-model="val" />
+
+相当于
+
+<input v-bind:value="val" v-on:input="val = $event.target.value" />
+```
+
+## Vuex的主要功能
+
+- `state`：页面状态管理容器对象。集中存储`Vue components`中`data`对象的零散数据，全局唯一，以进行统一的状态管理。页面显示所需的数据从该对象中进行读取，利用Vue的细粒度数据响应机制来进行高效的状态更新。
+
+- `getters`：`state`对象读取方法
+
+- `mutations`：状态改变操作方法。是`Vuex`修改`state`的唯一推荐方法，其他修改方式在严格模式下将会报错。该方法只能进行同步操作，且方法名只能全局唯一。操作之中会有一些hook暴露出来，以进行state的监控等。
+
+- `actions`：操作行为处理模块。负责处理`Vue Components`接收到的所有交互行为。包含同步/异步操作，支持多个同名方法，按照注册的顺序依次触发。向后台API请求的操作就在这个模块中进行，包括触发其他`action`以及提交`mutation`的操作。该模块提供了`Promise`的封装，以支持`action`的链式触发。
+
+- `commit`：状态改变提交操作方法。对`mutation`进行提交，是唯一能执行`mutation`的方法。
+
+- `dispatch`：操作行为触发方法，是唯一能执行`action`的方法。
+
+## Vuex的原理及理解
+
+`vuex`中的`store`本质就是没有`template`的隐藏着的`vue`组件
+
+我们传入的`state`会作为一个隐藏的`vue`组件的`data`,也就是说，执行commit操作，本质上其实是修改这个组件的`data`值
+
+## Vuex如何区分state是外部直接修改，还是通过mutation方法修改的
+
+Vuex中修改state的唯一渠道就是执行 `commit('xx', payload)` 方法，其底层通过执行 `this._withCommit(fn)` 设置`_committing`标志变量为`true`，然后才能修改state，修改完毕还需要还原`_committing`变量。外部修改虽然能够直接修改state，但是并没有修改`_committing`标志位，所以只要watch一下state，state `change`时判断是否`_committing`值为`true`，即可判断修改的合法性。
