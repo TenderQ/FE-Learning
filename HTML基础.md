@@ -21,3 +21,13 @@ BFC 的特性:
 参考文章：
 
 [浅析BFC原理及作用](https://blog.csdn.net/DFF1993/article/details/80394150)
+
+## CSS引入方式link与@import的区别
+
+1. link是`XHTML`标签，除了加载CSS外，还可以定义RSS等其他事务；@import属于`CSS`范畴，只能加载CSS。
+
+2. link引用CSS时，**在页面载入时同时加载**；@import**需要页面网页完全载入以后加载**，所以一般我们不推荐使用@import方法。
+
+3. link是XHTML标签，无兼容问题；@import是在CSS2.1提出的，低版本的浏览器不支持，从这点来说，我们同样不推荐使用@import方法。
+
+4. link支持使用`Javascript`控制DOM去改变样式；而@import不支持
