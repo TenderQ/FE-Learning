@@ -35,6 +35,21 @@
 
 - 箭头函数通过 `call()` 或 `apply()` 方法调用一个函数时，只传入了一个参数，对 `this` 并没有影响。
 
+``` js
+var obj = {
+  a:10,
+  b: ()=>{
+    console.log(this.a);  //undefined
+    console.log(this);    //window
+  },
+  c: function(){
+    console.log(this.a); //10
+  }
+}
+obj.b()
+obj.c()
+```
+
 ## js原型继承和class继承
 
 - js原型继承
@@ -105,3 +120,21 @@ class Dog extends Animal {
 
 const dog = new Dog();
 ```
+
+## commonjs模块和es6模块的区别
+
+`es6`模块的特点：
+
+- 静态化，必须在顶部，不能使用条件语句，自动采用严格模式
+- `treeshaking`和编译优化，以及`webpack3`中的作用域提升
+- 外部可以拿到实时值，而非缓存值(是引用而不是copy)
+
+`es6`模块和`commonjs`模块的区别：
+
+- 可以对`commonjs`模块重新赋值，对`es6`模块重新赋值会编译报错
+- `commonjs`是对模块的拷贝（浅拷贝），`es6`是对模块的引用（也就是说，es6模块只能**只读**，不能改变其值，具体点就是指针指向不能变，类似const）
+- `commonjs`模块是运行时加载，`es6`模块是编译时输出接口。
+
+`es6`模块和`commonjs`模块的相同点：
+
+- 两者都可以对模块对象内部属性的值进行改变

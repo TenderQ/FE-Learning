@@ -150,3 +150,7 @@ Vue实例有一个完整的生命周期，也就是从**开始创建、初始化
 ## Vuex如何区分state是外部直接修改，还是通过mutation方法修改的
 
 Vuex中修改state的唯一渠道就是执行 `commit('xx', payload)` 方法，其底层通过执行 `this._withCommit(fn)` 设置`_committing`标志变量为`true`，然后才能修改state，修改完毕还需要还原`_committing`变量。外部修改虽然能够直接修改state，但是并没有修改`_committing`标志位，所以只要watch一下state，state `change`时判断是否`_committing`值为`true`，即可判断修改的合法性。
+
+## Vue中data, prop, computed的初始化顺序
+
+`prop`先于`data`先于`computed`, 加载的时间都在`beforeCreate` 和 `created`之间
