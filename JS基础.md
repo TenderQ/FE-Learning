@@ -1,5 +1,53 @@
 # JS基础
 
+## JS的数据类型
+
+- 基本数据类型：`String`，`Boolean`，`Number`，`Undefined`，`Null`
+- 引用数据类型：`Object(Array，Date，RegExp，Function)`
+- 基本数据类型保存在栈内存中，引用数据类型保存在堆内存中
+
+## JS判断数组的方式
+
+- `obj instanceof Array`
+- `Array.isArray(obj)`
+- `Object.prototype.toString.call(obj) === '[object Array]'`
+
+## JS深拷贝和浅拷贝
+
+- 浅拷贝是指只复制一层对象，当对象的属性是引用类型时，实质复制的是其引用，当引用指向的值改变时也会跟着变化
+
+  ``` js
+    function extendCopy(object) {
+      var result = {}
+      for (var i in object) {
+        result[i] = object[i]
+      }
+      return result
+  　}
+
+    // 另一种方案
+    Object.assign({}, object)
+  ```
+
+- 深拷贝是指复制对象的所有层级
+
+  ``` js
+    function deepCopy(source) {
+      if (!source) {
+        return source
+      }
+      let sourceCopy = source instanceof Array ? [] : {}
+      for (let item in source) {
+        sourceCopy[item] =
+          typeof source[item] === 'object' ? deepCopy(source[item]) : source[item]
+      }
+      return sourceCopy
+    }
+
+    // 另一种方案
+    JSON.parse(JSON.stringify(object))
+  ```
+
 ## 柯里化函数实现
 
 ``` js

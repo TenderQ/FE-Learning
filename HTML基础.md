@@ -31,3 +31,50 @@ BFC 的特性:
 3. link是XHTML标签，无兼容问题；@import是在CSS2.1提出的，低版本的浏览器不支持，从这点来说，我们同样不推荐使用@import方法。
 
 4. link支持使用`Javascript`控制DOM去改变样式；而@import不支持
+
+## Rem布局原理
+
+`rem`布局的本质是等比缩放，一般是基于宽度
+
+``` CSS
+html {font-size: 16px}
+
+/* 作用于非根元素，相对于根元素字体大小，所以为32px */
+p {font-size: 2rem}
+```
+
+    结合vw使用
+
+    ``` css
+    html {fons-size: 1vw} /* 1vw = width / 100 */
+    p {width: 16rem}
+    ```
+
+[使用CSS3 REM 和 VW 打造等比例响应式页面的便捷工作流](https://zhuanlan.zhihu.com/p/23968868)
+
+## 移动端1像素边框问题
+
+使用`transform: scale(0.5)` 方案
+
+``` css
+.border-bottom::after {
+    content:'';
+    width:100%;
+    border-bottom:1px solid #000;
+    transform: scaleY(0.5);
+}
+/* 2倍屏 */
+@media only screen and (-webkit-min-device-pixel-ratio: 2.0) {
+    .border-bottom::after {
+        transform: scaleY(0.5);
+    }
+}
+/* 3倍屏 */
+@media only screen and (-webkit-min-device-pixel-ratio: 3.0) {
+    .border-bottom::after {
+        transform: scaleY(0.33);
+    }
+}
+```
+
+[参考文章](https://segmentfault.com/a/1190000007604842#articleHeader7)

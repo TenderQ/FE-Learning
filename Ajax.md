@@ -1,5 +1,12 @@
 # Ajax
 
+## Http请求中常见的四种 ContentType
+
+1. `application/json` 服务端消息主体是序列化后的 JSON 字符串, 适合 `RESTful` 的接口。
+2. `text/xml` 它的使用多用于 WordPress 的 XML-RPC Api，搜索引擎的 ping 服务等等
+3. `multipart/form-data` **表单上传文件**时，必须让 `form` 的 `enctyped` 等于这个值
+4. `application/x-www-form-urlencoded` 最常见的 `POST` 提交数据的方式, 提交的数据按照 `key1=val1&key2=val2` 的方式进行编码
+
 ## Ajax, Axios, Fetch 区别
 
 1. jQuery Ajax
