@@ -48,6 +48,46 @@
     JSON.parse(JSON.stringify(object))
   ```
 
+## 函数节流和函数去抖
+
+原因：在开发过程中，会有这样的场景，事件被频繁的触发，比在输入的时候监控`keypress`事件，在页面滚动的时候监控页面的滚动事件, 如果事件处理中存在复杂的dom操作，可能会导致整个UI卡顿甚至浏览器奔溃，而我们希望的结果就是事件结束后处理函数执行一次就行了
+
+- 函数节流：函数在以事件执行的过程中有规律的调用, 减少函数执行次数
+  
+  ``` js
+  function throttle(fn, duration = 0) {
+    let beginTime = new Date()
+    return function() {
+      let nowTime = new Date()
+      if (nowTime - beginTime >= duration) {
+        fn.apply(this, arguments)
+        beginTime = nowTime
+      }
+    }
+  }
+  // run test
+  function handleScroll(){
+    console.log(1)
+  }
+  window.onscroll = throttle(handleScroll)
+  ```
+
+- 函数防抖：函数在触发事件结束后一段时间内才会执行
+
+  ```js
+  function debounce(fn, delay) {
+    let timer = null
+    return function() {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        fn.apply(this, arguments)
+      }, delay)
+    }
+  }
+  ```
+
+函数的节流和函数的去抖都是通过减少实际逻辑处理过程的执行来提高事件处理函数运行性能的手段，并没有实质上减少事件的触发次数。
+
 ## 柯里化函数实现
 
 ``` js

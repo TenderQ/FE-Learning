@@ -32,6 +32,14 @@ BFC 的特性:
 
 4. link支持使用`Javascript`控制DOM去改变样式；而@import不支持
 
+## inline-block 元素之间的空白问题
+
+空白间隔是由`inline-block`标签之间换行产生的
+
+- 去掉标签中的空格和回车（不推荐）
+- **设置父元素font-size:0;子元素重新设置自己的font-size**
+- 使用`float`浮动
+
 ## Rem布局原理
 
 `rem`布局的本质是等比缩放，一般是基于宽度

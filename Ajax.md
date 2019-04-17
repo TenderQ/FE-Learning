@@ -25,7 +25,7 @@
 
    - **提供了一些并发请求的接口**
 
-3. Axios
+3. fetch
 
    - 更加底层，提供的 API 丰富（`request`, `response`）
    - 脱离了`XHR`，是`ES`规范里新的实现方式
