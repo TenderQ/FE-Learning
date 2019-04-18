@@ -57,9 +57,51 @@ ajax('GET', '/data.json').then(result => {
 })
 ```
 
-## 跨域
+## 跨域的方式
 
 协议、域名、端口有任何一个不同，都被当作是不同的域
 
-- jsonp
+- jsonp （拥有'src'这个属性的标签都拥有跨域的能力）
 - Access-Control-Allow-Origin
+
+## JSONP和callback
+
+JSONP的原理是通过`<script>`标签发起一个GET请求来取代XHR请求。JSONP生成一个`<script>`标签并插到DOM中，然后浏览器会接管并向src属性所指向的地址发送请求。
+
+JSONP的一个要点是允许用户传递一个`callback`参数给服务端，然后服务端返回数据时会将这个`callback`参数作为函数名来包裹住JSON数据，这样客户端就可以随意定制自己的函数来自动处理返回数据了。
+
+jQuery 在每次跨域发送请求时都会有`callback`这个参数，这个参数的值就是回调函数名称，所以，服务器端在发送json数据时，应该把这个参数放到前面，这个参数的值往往是随机生成的，如：jsonp1294734708682，同时也可以通过 `$.ajax` 方法设置 `jsonpcallback` 方法的名称。服务器端应该这样发送数据：
+
+``` java
+String callback = Request.QueryString["callback"].ToString();
+Response.Write(callback + "({\"userid\":0,\"username\":\"null\"})");
+```
+
+这样，json 数据 `{\"userid\":0,\"username\":\"null\"}` 就作为了 jsonp1294734708682 回调函数的一个参数
+
+jQuery方式使用：
+
+``` javascript
+$.ajax({
+  url: url,
+  dataType: 'jsonp',
+  data: 'username=admin&password=123',
+  jsonp: 'successCallback', // 回掉函数名的参数名，默认callback，服务端通过它来获取到回掉函数名
+  jsonpCallback: 'successCallback' // 回掉函数名，默认jquery自动生成
+});
+
+function successCallback(data) {
+  console.log(data)
+}
+
+// 不指定回调函数
+$.ajax({
+  url: url,
+  dataType: 'jsonp',
+  data: 'username=admin&password=123',
+  jsonp: 'callback',
+  success: function (data) {
+    console.log(data)
+  }
+})
+```
