@@ -154,3 +154,16 @@ Vuex中修改state的唯一渠道就是执行 `commit('xx', payload)` 方法，�
 ## Vue中data, prop, computed的初始化顺序
 
 `prop`先于`data`先于`computed`, 加载的时间都在`beforeCreate` 和 `created`之间
+
+## Vue中使用computed和methods的区别
+
+- `computed`是属性调用，而`methods`是函数调用, 使用methods定义的方法必须要加上()来调用
+
+    ``` html
+    <h1>{{ computedTest }}</h1>
+    <h1>{{ methodTest() }}</h1>
+    ```
+
+- `computed`具有缓存功能， `computed`依赖于`data`中的数据，只有在它的相关依赖数据发生改变时才会重新求值, `methods`在重新渲染的时候，函数总会重新调用执行。所以使用`computed`会比`methods`方法性能更好
+
+- `computed`必须返回一个值页面绑定的才能取得值，而`methods`中可以只执行逻辑代码，可以有返回值，也可以没有
