@@ -167,3 +167,20 @@ Vuex中修改state的唯一渠道就是执行 `commit('xx', payload)` 方法，�
 - `computed`具有缓存功能， `computed`依赖于`data`中的数据，只有在它的相关依赖数据发生改变时才会重新求值, `methods`在重新渲染的时候，函数总会重新调用执行。所以使用`computed`会比`methods`方法性能更好
 
 - `computed`必须返回一个值页面绑定的才能取得值，而`methods`中可以只执行逻辑代码，可以有返回值，也可以没有
+
+## Vue-Router实现前端路由
+
+### 前端路由
+
+"更新新视图但不重新请求页面"是前端路由的原理的核心, 目前在浏览器环境中这一功能的实现主要有两种方式
+
+- 利用URL中的hash（"#"）
+- 利用History interface在 HTML5中新增的方法
+
+## vue-router实现前端路由的方法和对比
+
+在vue-router中有一个`mode`参数，这个参数的可选值有`hash`、 `history`、`abstract`
+
+- `hash`模式是vue-router的默认模式，它会带个'#'看着不美观，但是不存在兼容性问题
+- `history`模式会将URL修改的和正常请求后端的URL一样，但是由于底层的实现调用HTML5的`history.pushState()`，所以存在浏览器兼容性问题
+- 使用`history`模式存在一个问题：在访问二级页面的时候，做刷新操作，会出现404错误，这时就需要和后端人员配合让他配置一下`apache`或是`nginx`的url重定向，重定向到index.html页面
