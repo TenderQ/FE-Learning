@@ -62,7 +62,7 @@ ajax('GET', '/data.json').then(result => {
 协议、域名、端口有任何一个不同，都被当作是不同的域
 
 - jsonp （拥有'src'这个属性的标签都拥有跨域的能力）
-- Access-Control-Allow-Origin
+- CORS 服务器设置`Access-Control-Allow-Origin`
 
 ## JSONP和callback
 
@@ -105,3 +105,12 @@ $.ajax({
   }
 })
 ```
+
+## CORS
+
+CORS（跨来源资源共享）是一份浏览器技术的规范，使用CORS，开发者可以使用普通的`XMLHttpRequest`发起请求和获得数据，比起JSONP有更好的错误处理
+
+CORS背后的基本思想是使用自定义的HTTP头部允许浏览器和服务器相互了解对方，从而决定请求或响应成功与否
+
+- `Access-Control-Allow-Origin`: 指定授权访问的域
+- `Access-Control-Allow-Methods`：授权请求的方法（GET, POST, PUT, DELETE，OPTIONS等)
