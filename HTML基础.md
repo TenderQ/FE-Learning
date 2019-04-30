@@ -98,3 +98,68 @@ p {font-size: 2rem}
 ```
 
 [参考文章](https://segmentfault.com/a/1190000007604842#articleHeader7)
+
+## CSS实现水平垂直居中
+
+``` html
+<div class="box">
+    <div class="content"></div>
+</div>
+```
+
+1. 父元素设置为`position: relative` 子元素设置为`position: absolute`, 利用`margin: auto`
+
+    ``` css
+    .box {
+        position: relative;
+        width: 300px;
+        height: 300px;
+    }
+    .content {
+        position: absolute;
+        background-color: #F00;
+        width: 100px;
+        height: 100px;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto
+    }
+    ```
+
+2. 利用`transform: translate(-50%, -50%)`
+
+    ``` css
+    .box {
+        position: relative;
+        width: 300px;
+        height: 300px;
+    }
+    .content {
+        position: absolute;
+        background-color: #F00;
+        width: 100px;
+        height: 100px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    ```
+
+3. `flex`布局
+
+    ``` css
+    .box {
+        display: flex; //flex布局
+        width: 300px;
+        height: 300px;
+        justify-content: center; // 使子项目水平居中
+        align-items: center; // 使子项目垂直居中
+    }
+    .content {
+        background-color: #F00;
+        width: 100px;
+        height: 100px;
+    }
+    ```
