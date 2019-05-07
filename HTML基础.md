@@ -102,8 +102,8 @@ p {font-size: 2rem}
 ## CSS实现水平垂直居中
 
 ``` html
-<div class="box">
-    <div class="content"></div>
+<div class='box'>
+    <div class='content'></div>
 </div>
 ```
 
@@ -163,3 +163,37 @@ p {font-size: 2rem}
         height: 100px;
     }
     ```
+
+## 如何避免浏览器回流和重绘
+
+减少回流、重绘其实就是需要减少对render tree的操作，并减少对一些style信息的请求，尽量利用好浏览器的优化策略
+
+- 不要一个一个改变元素的样式属性，最好直接改变className，但className是预先定义好的样式，不是动态的，如果要动态改变一些样式，则使用cssText来改变
+
+   ``` js
+    var left = 10, top = 10;  
+    el.style.left = left + 'px';  
+    el.style.top  = top  + 'px';  
+
+    // 比较好的写法
+    el.className += ' className1';
+
+    // 比较好的写法
+    el.style.cssText += '; left: ' + left + 'px; top: ' + top + 'px;';
+   ```
+
+- 让要操作的元素进行'离线处理'，处理完后一起更新，这里所谓的"离线处理"即让元素不存在于`render tree`中, 比如使用`documentFragment`或`div`等元素进行缓存操作或者先`display:none`隐藏元素，然后对该元素进行所有的操作，最后再显示该元素
+
+- 避免使用`table`布局，在布局完全建立之前，`table`需要很多关口，`table`是可以影响之前已经进入的DOM元素的显示的元素。即使一些小的变化和会导致`table`中所有其他节点回流
+
+- 将需要多次回流的元素`position`属性设为`absolute`或`fixed`，这样该元素就会脱离文档流，它的变化不会影响其他元素变化。比如动画效果应用到`position`属性为`absolute`或`fixed`的元素上
+
+- 避免使用`css`的`JavaScript`表达式，因为每次都需要重新计算文档，或部分文档、回流
+
+- 使用`trsansform`来实现动画效果
+
+- 不要经常访问会引起浏览器`flush`队列的属性，如果确实要访问，就先读取到变量后进行缓存，以后用的时候直接读取变量
+
+    对于`flush`队列的属性浏览器不会马上操作它们，而是会先缓存在队列中，有一定时间顺序去执行这些操作，但是在这过程中我们需要去获取在该队列中的属性时，浏览器为取得正确的值就会触发重排。这样就使得浏览器的优化失效了
+
+    `flush队列属性: offsetTop、offsetLeft、 offsetWidth、offsetHeight、scrollTop、scrollLeft、scrollWidth、scrollHeight、clientTop、clientLeft、clientWidth、clientHeight`
