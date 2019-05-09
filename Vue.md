@@ -184,3 +184,8 @@ Vuex中修改state的唯一渠道就是执行 `commit('xx', payload)` 方法，�
 - `hash`模式是vue-router的默认模式，它会带个'#'看着不美观，但是不存在兼容性问题
 - `history`模式会将URL修改的和正常请求后端的URL一样，但是由于底层的实现调用HTML5的`history.pushState()`，所以存在浏览器兼容性问题
 - 使用`history`模式存在一个问题：在访问二级页面的时候，做刷新操作，会出现404错误，这时就需要和后端人员配合让他配置一下`apache`或是`nginx`的url重定向，重定向到index.html页面
+
+## Vue中的 $router 和 $route 的区别
+
+- `$router`为`VueRouter`的实例，相当于一个全局的路由器对象，里面含有很多属性和子对象; 如果要导航到不同URL，可以使用`$router.push`方法
+- `$route`相当于当前正在跳转的路由对象, 可以从里面获取`name, path, params, query`
