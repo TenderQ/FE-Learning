@@ -197,3 +197,34 @@ p {font-size: 2rem}
     对于`flush`队列的属性浏览器不会马上操作它们，而是会先缓存在队列中，有一定时间顺序去执行这些操作，但是在这过程中我们需要去获取在该队列中的属性时，浏览器为取得正确的值就会触发重排。这样就使得浏览器的优化失效了
 
     `flush队列属性: offsetTop、offsetLeft、 offsetWidth、offsetHeight、scrollTop、scrollLeft、scrollWidth、scrollHeight、clientTop、clientLeft、clientWidth、clientHeight`
+
+## CSS3实现border渐变色
+
+``` css
+border-image: linear-gradient(#ddd, #000) 30 30
+```
+
+`border-image`无法实现圆角, 但是可以通过`padding`来实现，给父节点设置**渐变背景**，通过padding模拟边框（此处的padding值就是border需要的值），注意父元素和子元素的`border-radius`属性值保持一致
+
+``` html
+<style>
+.content {
+  width: 100px;
+  height: 100px;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 50%;
+  background-image: linear-gradient(top, red 0%, blue 30%, yellow 60%, green 90%);
+}
+.box {
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background:#fff;
+}
+</style>
+
+<div class="content">
+  <div class="box"></div>
+</div>
+```
