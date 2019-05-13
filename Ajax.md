@@ -114,3 +114,21 @@ CORS背后的基本思想是使用自定义的HTTP头部允许浏览器和服务
 
 - `Access-Control-Allow-Origin`: 指定授权访问的域
 - `Access-Control-Allow-Methods`：授权请求的方法（GET, POST, PUT, DELETE，OPTIONS等)
+
+## cookie 跨域的处理方案
+
+cookie是不能跨域访问的，但是在二级域名是可以共享cookie的
+
+1. 通过设置cookie的属性实现不同子域间访问
+
+   - `domain`-域: 通过设置这个属性可以使多个web服务器共享cookie。domain属性的默认值是创建cookie的服务器的主机名。不能将一个cookie的域设置成服务器所在的域之外的域。
+
+   - `path`-路径: 表示创建该cookie的服务器的哪些路径下的文件有权限读取该 cookie,默认为/，就是创建该cookie的服务器的根目录
+
+   比如:
+
+   让位于a.taotao.com的服务器能够读取b.taotao.com设置的cookie值。如果b.taotao.com的页面创建的cookie**把path属性设置为`/`，把domain属性设置成".taotao.com"**，那么所有位于b.taotao.com的网页和所有位于 a.taotao.com的网页，以及位于taotao.com域的其他服务器上的网页都可以访问(或者说是获取)这个cookie。
+
+2. 利用JSONP请求
+
+3. 使用Nginx反向代理，暂不做介绍
