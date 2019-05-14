@@ -129,9 +129,10 @@ console.log(cost()); // 输出600
 
 ## bind,call,apply三者的区别
 
-bind返回值是函数,bind 方法不会立即执行，而是返回一个改变了上下文 this 后的函数。而原函数 printName 中的 this 并没有被改变，依旧指向全局对象 window。
-
-[call、apply、bind的区别](https://segmentfault.com/a/1190000012772040#articleHeader2)
+- `call` `apply` `bind`都可以改变函数调用的`this`指向
+- `call`跟`apply`的用法几乎一样，唯一的不同就是传递的参数不同，`call`只能一个参数一个参数的传入。
+- `apply`只支持传入一个数组。最终调用函数时候这个数组会拆成一个个参数分别传入。
+- `bind`返回值是函数, `bind` 方法不会立即执行，而是返回一个改变了上下文 `this` 后的函数。而原函数中的 `this` 并没有被改变。`bind`传参方式跟`call`方法一致
 
 ## JS原型链
 
