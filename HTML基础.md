@@ -229,6 +229,16 @@ border-image: linear-gradient(#ddd, #000) 30 30
 </div>
 ```
 
+## CSS3 blur滤镜实现
+
+``` html
+.blur {
+  filter: blur(10px);
+}
+
+<img src="1.jpg" class="blur" />
+```
+
 ## CSS3中flex的用法
 
 通过给容器设置`display: flex`可指定为Flex（弹性盒子）布局，容器设为Flex布局以后，它的所有子元素自动成为容器成员，称为Flex项目（flex item）。子元素的`float`、`clear`和`vertical-align`属性将失效
