@@ -134,6 +134,18 @@ console.log(cost()); // 输出600
 - `apply`只支持传入一个数组。最终调用函数时候这个数组会拆成一个个参数分别传入。
 - `bind`返回值是函数, `bind` 方法不会立即执行，而是返回一个改变了上下文 `this` 后的函数。而原函数中的 `this` 并没有被改变。`bind`传参方式跟`call`方法一致
 
+## 原生JS实现bind函数
+
+``` js
+Function.prototype.bind = function (func) {
+  var params = [].slice.call(arguments, 1)
+  var that = this
+  return function () {
+    that.apply(func, params.concat([].slice.call(arguments, 0)))
+  }
+}
+```
+
 ## JS原型链
 
 [JS原型链简单图解](https://www.cnblogs.com/libin-1/p/5820550.html)
