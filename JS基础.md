@@ -315,3 +315,51 @@ Dep.prototype = {
   }
 }
 ```
+
+## Canvas性能优化
+
+1. 离屏渲染
+
+   在离屏Canvas上预渲染相似的图形或重复的对象，通俗的解释是将离屏canvas当成预渲染，在离屏canvas上绘制好一整块图形，绘制好后在放到视图canvas中，适合每一帧画图运算复杂的图形
+
+    ``` js
+    // 在离屏 canvas 上绘制
+    var cacheCanvas = document.createElement('canvas')
+    // 宽高赋值为想要的图片尺寸
+    cacheCanvas.width = dWidth
+    cacheCanvas.height = dHeight
+    // 将image裁剪之后放到离屏canvas保存起来
+    cacheCanvas.getContext('2d').drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+    // 在视图canvas中绘制
+    viewContext.drawImage(cacheCanvas, x, y)
+    ```
+
+2. 分层画布
+
+   多个相互重叠的canvas根据变化程度分开渲染，越复杂的场景越适合
+
+3. 一次性绘制
+
+   绘制操作的性能开销较高，可以创建一个包含所有线条的路径，然后通过单个绘制路径调用进行绘制。在绘制复杂路径时，最好将所有点都放入路径中，而不是分别呈现各个片段
+
+4. 使用requestAnimationFrame执行动画
+
+   canvas动画的本质是不断地擦除和重绘，再结合一些时间控制的方法达到动画的目的；显示器刷新频率是60Hz，最平滑动画的最佳循环间隔是1000ms/60，约等于16.6ms；而`requestAnimationFrame`就是根据显示器刷新频率来的，这是浏览器专门为动画提供的API，在运行时浏览器会自动优化方法的调用，节省系统资源，提高系统性能，如果页面不是激活状态下的话，`requestAnimationFrame` 会被暂停调用以提升性能和电池寿命
+
+5. 清空画布
+  
+   三种方法性能，性能依次提高
+
+   ``` js
+    context.fillRect()
+    context.clearRect()
+    canvas.width = canvas.width // 一种画布专用的技巧
+   ```
+
+6. 减少调用canvas的api
+
+   比如像背景可以使用css属性设置或者img标签加一些定位什么的, 画布的缩放可以使用CSS transforms，不要将小画布放大，而是去将大画布缩小
+
+7. 避免使用浮点数坐标
+
+   使用非整数的坐标绘制内容，系统会自动使用抗锯齿功能，尝试对线条进行平滑处理，这又是一种性能消耗。可以调用 Math.round 四舍五入取整
