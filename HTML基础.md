@@ -34,6 +34,10 @@ BFC 的特性:
 
 [浅析BFC原理及作用](https://blog.csdn.net/DFF1993/article/details/80394150)
 
+## CSS优先级规则
+
+!important > 内联 > ID选择器 > 伪类=属性选择器=类选择器 > 元素选择器[p] > 通用选择器(*) > 继承的样式
+
 ## CSS引入方式link与@import的区别
 
 1. link是`XHTML`标签，除了加载CSS外，还可以定义RSS等其他事务；@import属于`CSS`范畴，只能加载CSS。
