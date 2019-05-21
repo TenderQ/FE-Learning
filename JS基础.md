@@ -363,3 +363,16 @@ Dep.prototype = {
 7. 避免使用浮点数坐标
 
    使用非整数的坐标绘制内容，系统会自动使用抗锯齿功能，尝试对线条进行平滑处理，这又是一种性能消耗。可以调用 Math.round 四舍五入取整
+
+## 写一个数组方法, 打乱整个数组顺序, 并且每个数字落在各个位置的概率相同
+
+``` js
+function shuffle(arr) {
+  let i = arr.length
+  while (i) {
+    let j = Math.floor(Math.random() * i--)
+    [arr[j], arr[i]] = [arr[i], arr[j]] // 交换数组顺序
+  }
+  return arr
+}
+```
