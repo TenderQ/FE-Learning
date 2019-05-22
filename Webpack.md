@@ -1,5 +1,44 @@
 # Webpack
 
+## webpack核心概念
+
+- `entry` 指示 `webpack` 应该使用哪个模块，来作为构建其内部依赖图的开始
+
+- `output` 属性告诉 `webpack` 在哪里输出它所创建的 `bundles`，以及如何命名这些文件
+
+- `loader` 可以将所有类型的文件转换为 `webpack` 能够处理的有效模块，然后就可以利用 `webpack` 的打包能力，对它们进行处理
+
+  - `test` 属性，用于标识出应该被对应的 `loader` 进行转换的某个或某些文件
+  - `use` 属性，表示进行转换时，应该使用哪个 `loader`
+
+- `plugins`: 可以参与打包的整个过程。从打包优化和压缩，到配置编译时的变量。插件接口功能极其强大，可以用来处理各种各样的任务
+
+下面是一个完整的webpack配置文件
+
+``` js
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // 通过 npm 安装
+const webpack = require('webpack'); // 用于访问内置插件
+
+module.exports = {
+  entry: {
+    app: './src/app.js',
+    vendors: './src/vendors.js'
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].min.[hash:5].js'
+  },
+  module: {
+    rules: [
+      { test: /\.css$/, use: 'css-loader' }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({template: './src/index.html'})
+  ]
+}
+```
+
 ## loader的作用
 
 1. 实现对不同格式的文件的处理，比如说将`scss`转换为`css`，或者`typescript`转化为`js`
