@@ -52,6 +52,20 @@ module.exports = {
 
 - `loader`只能在打包之前运行，但是`plugins`在整个编译周期都起作用
 
+## webpack常用loader
+
+1. 编译相关
+
+   `babel-loader`、`ts-loader`
+
+2. 样式相关
+
+   `style-loader`、`css-loader`、`less-loader`、`postcss-loader`
+
+3. 文件相关
+
+   `file-loader`、`url-loader`
+
 ## webpack打包优化的解决方案
 
 1. DLL方式
