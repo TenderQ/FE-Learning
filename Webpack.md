@@ -66,6 +66,24 @@ module.exports = {
 
    `file-loader`、`url-loader`
 
+## webpack常用plugin
+
+1. 优化相关
+
+   - `CommonsChunkPlugin`: 用来提取公共代码，通过将公共模块提取出来，只在页面加载的时候引入一次，提升应用的加载效率，`chunk`其实就是代码块的意思，可能是一个或多个模块，一般就是一个js文件
+
+   - `UglifyjsWebpackPlugin`: 用来对js文件进行压缩和混淆
+
+2. 功能相关
+
+   - `ExtractTextWebpackPlugin`：抽取js引入的css文件进行单独打包，防止将样式打包在js中引起页面样式加载错乱的现象
+
+   - `HtmlWebpackPlugin`：可以生成创建html入口文件，比如单页面可以生成一个html文件入口；为html文件中引入的外部资源如script、link动态添加每次compile后的hash，防止引用缓存的外部文件问题
+
+   - `HotModuleReplacementPlugin`：热模块更新的插件
+
+   - `CopyWebpackPlugin`：用于将单个文件或整个目录复制到打包构建目录
+
 ## webpack打包优化的解决方案
 
 1. DLL方式
