@@ -21,3 +21,35 @@ React在`setState`之后，会经对`state`进行`diff`，判断是否有改变�
 ### setState 什么时候会执行同步更新
 
 在React中，如果是由React引发的事件处理（比如通过onClick引发的事件处理），调用`setState`不会同步更新`this.state`，除此之外(通过`addEventListener`添加的事件处理函数, 或者`setTimeout`,`setInterval`异步调用)的`setState`调用会同步执行`this.state`。
+
+## React组件的生命周期
+
+React组件的生命周期可以分为三个阶段：
+
+1. 挂载阶段
+
+    在这个过程中，会触发以下几个事件:
+
+    - `getDefaultProps`: 设置默认属性
+    - `getInitialState`: 设置初始状态
+    - `componentWillMount`: 即将挂载
+    - `render`: 渲染，就是挂载
+    - `componentDidMount`: 组件挂载完成
+  
+2. 更新阶段
+
+    更新过程中触发了如下钩子（方法）：
+
+    - `compoentwillReceiveProps`: 即将接受上一级的属性传递- 比较少用
+    - `shouldCompnetUpdate`: 是否应该进行更新操作
+    - `componentWillUpdate`: 即将进行更新操作
+    - `render`: 重新渲染
+    - `componentDidUpdate`: 更新完成
+
+3. 卸载阶段
+
+    在组件卸载的时候，进入卸载阶段。只有一个钩子方法 `componentWillUnmount`
+
+    `ReactDOM`提供了一个方法用于卸载组件 `ReactDOM.unmountComponentAtNode(document.getElementById('app'));`
+
+> `render`在挂载阶段和更新阶段都会执行。挂载阶段只执行一次，但是更新阶段可以重复执行
