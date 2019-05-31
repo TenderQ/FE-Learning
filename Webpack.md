@@ -1,5 +1,11 @@
 # Webpack
 
+## gulp和webpack区别
+
+- `gulp`是一种工具，我们可以用它来优化前端的工作流程，比如自动刷新页面、合并、压缩css、js、编译`less`等等。具体体现为：在gulp的配置文件中书写一个个的`task`; `webpack`则是一种打包工具，或者说是一种模块化解决方案，实际上很大一部分人刚开始使用`webpack`的方式就是通过`gulp-webpack`这个插件，写好task来使用webpack对前端的一些文件进行打包;
+
+- `gulp`的处理任务需要自己去写，`webpack`则有现成的解决方案，只需要在`webpack.config.js`配置好即可;
+
 ## webpack核心概念
 
 - `entry` 指示 `webpack` 应该使用哪个模块，来作为构建其内部依赖图的开始
