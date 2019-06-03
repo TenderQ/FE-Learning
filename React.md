@@ -85,11 +85,11 @@ React组件的生命周期可以分为三个阶段：
 
 当组件更新时，如果组件的 `props` 和 `state` 都没发生改变， `render` 方法就不会触发，省去`Virtual DOM`的生成和比对过程，达到提升性能的目的。具体就是 `React` 自动帮我们做了一层浅比较：
 
-    ``` javascript
-    if (this._compositeType === CompositeTypes.PureClass) {
-        shouldUpdate = !shallowEqual(prevProps, nextProps) || !shallowEqual(inst.state, nextState);
-    }
-    ```
+``` javascript
+if (this._compositeType === CompositeTypes.PureClass) {
+    shouldUpdate = !shallowEqual(prevProps, nextProps) || !shallowEqual(inst.state, nextState);
+}
+```
 
 `shallowEqual`会比较 `Object.keys(state | props)` 的长度是否一致，每一个 `key` 是否两者都有，并且是否是一个引用，也就是只比较了第一层的值，确实很浅，所以**深层的嵌套数据是对比不出来的**。
 
@@ -97,10 +97,75 @@ React组件的生命周期可以分为三个阶段：
 
 当一个数据是不变数据时，可以使用一个引用。但是对于一个易变数据来说(比如数组)，不能使用引用的方式给到`PureComponent`。简单来说，就是我们在`PureComponent`外层来修改其使用的数据时，应该给其赋值一个新的对象或者引用，从而才能确保其能够进行重新渲染
 
-    ``` js
-    this.setState(prevState => ({
-        state: [...prevState.state, 'new state'],
-    }));
-    ```
+``` javascript
+this.setState(prevState => ({
+    state: [...prevState.state, 'new state'],
+}));
+```
 
 `PureComponent`真正起作用的，只是在一些纯展示组件上，复杂组件使用的话`shallowEqual`那一关基本就过不了。另外在使用的过程中为了确保能够正确的渲染，记得 `props` 和 `state` 不能使用同一个引用
+
+## Redux的原理
+
+`Redux`是将整个应用状态存储到一个地方上称为`store`,里面保存着一个状态树`store tree`,组件可以派发(`dispatch`)行为(`action`)给`store`, 而不是直接通知其他组件，组件内部通过订阅`store`中的状态`state`来刷新自己的视图
+
+### Redux三大原则
+
+1. 唯一数据源
+
+    整个应用的`state`都被存储到一个状态树里面，并且这个状态树，只存在于唯一的`store`中
+
+2. 保持只读状态
+
+    `state`是只读的，唯一改变`state`的方法就是触发`action`，`action`是一个用于描述以发生时间的普通对象
+
+3. 数据改变只能通过纯函数来执行
+
+    使用纯函数来执行修改，为了描述`action`如何改变`state`的，需要编写`reducers`
+
+### Redux核心概念
+
+- Store
+
+`store`是保存数据的地方，可以把它看成一个数据，整个应用只能有一个`store`, `Redux`提供`createStore`这个函数，用来生成`store`
+
+``` javascript
+import {createStore} from 'redux;
+const store = createStore(reducer);
+```
+
+- State
+
+`state`是`store`里面存储的数据，`store`里面可以拥有多个`state`，`Redux`规定一个`state`对应一个`View`,只要`state`相同，`view`就是一样的，反过来也是一样的，可以通过`store.getState()`获取
+
+``` javascript
+const state = store.getState()
+```
+
+- Action
+
+`state`的改变会导致`View`的变化，但是在`redux`中不能直接操作`state`也就是说不能使用`this.setState`来操作，用户只能接触到`View`。在`Redux`中提供了一个对象来告诉`Store`需要改变`state`。`Action`是一个对象, 其中`type`属性是必须的，表示`Action`的名称。发送Action的唯一办法是`store.dispatch(Action)`
+
+ ``` javascript
+const action = {
+    type: 'ADD_TODO',
+    payload: 'do something'
+}
+```
+
+- Reducer
+
+`Store`收到`Action`后，必须给出一个新的`state`，这样`view`才会发生变化。这种`state`的计算过程就叫做`Reducer`。
+
+> 注意：`Reducer`必须是一个纯函数，也就是说函数返回的结果必须由参数`state`和`action`决定，而且不产生任何副作用也不能修改`state`和`action`对象
+
+``` javascript
+const reducer = (state, action)=>{
+    switch(action.type) {
+        case ADD_TODO:
+            return newstate;
+        default
+            return state;
+    }
+}
+```
