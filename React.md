@@ -169,3 +169,29 @@ const reducer = (state, action)=>{
     }
 }
 ```
+
+## React对Context的理解
+
+`Context` 提供了一个无需为每层组件手动添加 `props`，就能在组件树间进行数据传递的方法。`Context` 设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言
+
+- `React.createContext`：创建一个上下文的容器(组件), defaultValue可以设置共享的默认数据
+
+``` js
+const {Provider, Consumer} = React.createContext(defaultValue);
+```
+
+- `Context.Provider`(生产者): 用于生产共享数据的地方。`Provider` 接收一个 `value` 属性，传递给消费组件，`value`放置共享的数据
+
+``` js
+<Provider value={/*共享的数据*/}>
+    /*里面可以渲染对应的内容*/
+</Provider>
+```
+
+- `Context.Consumer`(消费者): 是专门消费供应商`(Provider`)产生数据。`Consumer`需要嵌套在生产者下面。才能通过回调的方式拿到共享的数据源。当然也可以单独使用，那就只能消费到创建content时的`defaultValue`
+
+``` js
+<Consumer>
+  {value => /*根据上下文  进行渲染相应内容*/}
+</Consumer>
+```
