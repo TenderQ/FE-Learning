@@ -195,3 +195,19 @@ const {Provider, Consumer} = React.createContext(defaultValue);
   {value => /*根据上下文  进行渲染相应内容*/}
 </Consumer>
 ```
+
+## React 中 refs 的作用
+
+`refs` 是 `React` 提供安全访问 `DOM` 元素或者某个组件实例的句柄。我们可以为元素添加 `ref` 属性然后在回调函数中接受该元素在 `DOM` 树中的句柄，该值会作为回调函数的第一个参数返回
+
+``` js
+render () {
+    return (
+        <form>
+            <input type='text' ref={(input) => this.input = input} />
+        </form>
+    )
+}
+```
+
+`ref` 属性声明的回调函数接收 `input` 对应的 `DOM` 元素，将其绑定到 `this.input` 上
