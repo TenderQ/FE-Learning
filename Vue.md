@@ -190,7 +190,7 @@ Vuex中修改state的唯一渠道就是执行 `commit('xx', payload)` 方法，�
 - `$router`为`VueRouter`的实例，相当于一个全局的路由器对象，里面含有很多属性和子对象; 如果要导航到不同URL，可以使用`$router.push`方法
 - `$route`相当于当前正在跳转的路由对象, 可以从里面获取`name, path, params, query`
 
-## Vue中<keep-alive>的使用
+## Vue中keep-alive的使用
 
 `<keep-alive>` 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。再次处于活动状态时，会读取缓存的内容并保存组件状态，不用重复请求接口获取数据。
 
