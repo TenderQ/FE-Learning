@@ -189,3 +189,31 @@ Vuex中修改state的唯一渠道就是执行 `commit('xx', payload)` 方法，�
 
 - `$router`为`VueRouter`的实例，相当于一个全局的路由器对象，里面含有很多属性和子对象; 如果要导航到不同URL，可以使用`$router.push`方法
 - `$route`相当于当前正在跳转的路由对象, 可以从里面获取`name, path, params, query`
+
+## Vue中<keep-alive>的使用
+
+`<keep-alive>` 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。再次处于活动状态时，会读取缓存的内容并保存组件状态，不用重复请求接口获取数据。
+
+当组件在 `<keep-alive>` 内被切换，会触发组件的`activated` 和 `deactivated` 这两个生命周期钩子函数
+
+`<keep-alive>`提供了`include`、`exclude`、`max`三个参数，前两个允许组件有条件的进行缓存，两者都可以接受字符串、正则、数组形式；`max`表示最多可以缓存多少个组件，接受一个`number`类型。
+
+基本用法：
+
+``` html
+<!-- 基本 -->
+<keep-alive>
+  <component :is="view"></component>
+</keep-alive>
+
+<!-- 多个条件判断的子组件 -->
+<keep-alive>
+  <comp-a v-if="a > 1"></comp-a>
+  <comp-b v-else></comp-b>
+</keep-alive>
+
+<keep-alive include="a,b">
+  <component :is="view"></component>
+</keep-alive>
+<!-- 此时只有a、b两个组件会触发keep-alive，此处的名字是组件内部name对应名字，如果name不存在，会查找父组件里components里注册的名字，如果也不存在则不会匹配，匿名组件不能被匹配。正则和数组方法同上，但是需要用v-bind:include=''方式。-->
+```
