@@ -45,6 +45,10 @@ React在`setState`之后，会经对`state`进行`diff`，判断是否有改变�
 
 在React中，如果是由React引发的事件处理（比如通过onClick引发的事件处理），调用`setState`不会同步更新`this.state`，除此之外(通过`addEventListener`添加的事件处理函数, 或者`setTimeout`,`setInterval`异步调用)的`setState`调用会同步执行`this.state`。
 
+### 为什么建议传递给 setState 的参数是一个 callback 而不是一个对象
+
+`this.props` 和 `this.state` 的更新可能是异步的，不能依赖它们的值去计算下一个 `state`。
+
 ## React组件的生命周期
 
 React组件的生命周期可以分为三个阶段：
