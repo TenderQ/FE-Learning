@@ -191,6 +191,10 @@ counter.x // => 1
 
 foo函数里面传一个对象进行计算，计算的过程里面并不会对传入的对象进行修改，计算前后的 `counter` 对象不会发生任何变化，计算前x是 1，计算后也是 1，所以foo是纯函数
 
+## Redux Thunk 的作用
+
+`Redux thunk` 是一个允许你编写返回一个函数而不是一个 `action` 的 `actions creators` 的中间件。如果满足某个条件，`thunk` 则可以用来延迟 `action` 的派发(`dispatch`)，这可以处理异步 `action` 的派发(`dispatch`)。
+
 ## React对Context的理解
 
 `Context` 提供了一个无需为每层组件手动添加 `props`，就能在组件树间进行数据传递的方法。`Context` 设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言
