@@ -202,6 +202,20 @@ p {font-size: 2rem}
 
     `flush队列属性: offsetTop、offsetLeft、 offsetWidth、offsetHeight、scrollTop、scrollLeft、scrollWidth、scrollHeight、clientTop、clientLeft、clientWidth、clientHeight`
 
+## CSS3渐变色
+
+- 线性渐变 `background: linear-gradient(to right, red, blue);` 从左边开始起点是红色，慢慢过渡到蓝色
+
+- 径向渐变 `background: radial-gradient(red 5%, green 15%, blue 60%)`
+
+> 设置文字渐变色加入设置以下属性:
+
+``` css
+background-image: -webkit-linear-gradient(bottom,red, blue);
+-webkit-text-fill-color: transparent;   //填充透明
+-webkit-background-clip: text;      //针对于文本
+```
+
 ## CSS3实现border渐变色
 
 ``` css
