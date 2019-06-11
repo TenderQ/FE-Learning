@@ -81,6 +81,18 @@ React组件的生命周期可以分为三个阶段：
 
 > `render`在挂载阶段和更新阶段都会执行。挂载阶段只执行一次，但是更新阶段可以重复执行
 
+## React diff原理
+
+1. 把树形结构按照层级分解，只比较同级元素
+
+2. 给列表结构的每个单元添加唯一的 `key` 属性，方便比较
+
+3. `react` 只会匹配相同 `class` 的 `component`（这里面的 `class` 指的是组件的名字）
+
+4. 合并操作，调用 `component` 的 `setState` 方法的时候, `React` 将其标记为 `dirty`.到每一个事件循环结束, `React` 检查所有标记 `dirty` 的 `component` 重新绘制
+
+5. 选择性子树渲染。开发人员可以重写 `shouldComponentUpdate` 提高 diff 的性能
+
 ## React中PureComponent
 
 `PureComponent` 是优化 `React` 应用程序最重要的方法之一，易于实施，只要把继承类从 `Component` 换成 `PureComponent` 即可，可以减少不必要的 `render` 操作的次数，从而提高性能，而且可以少写 `shouldComponentUpdate` 函数，节省代码
