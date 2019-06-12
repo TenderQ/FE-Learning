@@ -248,3 +248,15 @@ render () {
 ```
 
 `ref` 属性声明的回调函数接收 `input` 对应的 `DOM` 元素，将其绑定到 `this.input` 上
+
+## react-router的使用
+
+- `BrowserRouter`或`HashRouter`用来渲染`Router`所代表的组件
+
+- `Route`用来匹配组件路径并且筛选需要渲染的组件
+
+- `Switch`用来筛选需要渲染的唯一组件
+
+- `Link`直接渲染某个页面组件
+
+- `Redirect`类似于`Link`，在没有`Route`匹配成功时触发
