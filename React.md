@@ -260,3 +260,19 @@ render () {
 - `Link`直接渲染某个页面组件
 
 - `Redirect`类似于`Link`，在没有`Route`匹配成功时触发
+
+## React 事件机制
+
+react的事件是合成事件，不是原生事件
+
+``` html
+<button onClick={this.handleClick}></button>
+
+<input value={this.state.name} onChange={this.handleChange} />
+```
+
+### 合成事件与原生事件的区别
+
+1. 写法不同，合成事件是驼峰写法，而原生事件是全部小写
+2. 执行时机不同，合成事件全部委托到`document`上，而原生事件绑定到`DOM`元素本身
+3. 合成事件中可以是任何类型，比如`this.handleClick`这个函数，而原生事件中只能是字符串
