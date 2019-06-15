@@ -287,3 +287,30 @@ react的事件是合成事件，不是原生事件
 
 1. 先执行原生事件，事件冒泡至`document`，再执行合成事件
 2. 如果是父子元素，触发顺序为 子元素原生事件 -> 父元素原生事件 -> 子元素合成事件 -> 父元素合成事件
+
+### React组件中使用原生事件
+
+由于原生事件绑定在真实DOM上，所以一般是在`componentDidMount`中或`ref`回调函数中进行绑定操作，在`componentWillUnmount`阶段进行解绑操作，以避免内存泄漏。
+
+``` javascript
+componentDidMount() {
+    //获取当前真实DOM元素
+    const thisDOM = ReactDOM.findDOMNode(this);
+    //或者
+    const thisDOM = this.refs.el;
+    thisDOM.addEventListener('click', this.onDOMClick, false);
+}
+componentWillUnmount() {
+    //卸载时解绑事件，防止内存泄漏
+    const thisDOM = ReactDOM.findDOMNode(this);
+    thisDOM.removeEventListener('click',this.removeDOMClick);
+}
+onDOMClick(e){
+    console.log(e)
+}
+render(){
+    return(
+        <div ref="el"> 单击原始事件触发 </div>
+    )
+}
+```
