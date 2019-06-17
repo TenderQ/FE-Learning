@@ -34,6 +34,24 @@ BFC 的特性:
 
 [浅析BFC原理及作用](https://blog.csdn.net/DFF1993/article/details/80394150)
 
+## IFC
+
+IFC(Inline Formatting Contexts)直译为"内联格式化上下文"，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的padding/margin影响)IFC中的line box一般左右都贴紧IFC，但是会因为`float`元素而扰乱。
+`float`元素会位于IFC与与line box之间，使得line box宽度缩短。 IFC中是不可能有块级元素的，当插入块级元素时（如p中插入div）会产生两个匿名块与div分隔开，即产生两个IFC，每个IFC对外表现为块级元素，与div垂直排列。
+
+### IFC作用
+
+- 水平居中：当一个块要在环境中水平居中时，设置其为`inline-block`则会在外层产生IFC，通过`text-align:center`则可以使其水平居中。
+- 垂直居中：创建一个IFC，用其中一个元素撑开父元素的高度，然后设置其`vertical-align:middle`，其他行内元素则可以在此父元素下垂直居中。
+
+## FFC
+
+FFC(Flex Formatting Contexts)直译为"自适应格式化上下文"，`display`值为`flex`或者`inline-flex`的元素将会生成自适应容器
+
+`Flex Box` 由伸缩容器和伸缩项目组成。设置为`flex` 的容器被渲染为一个块级元素，而设置为 `inline-flex` 的容器则渲染为一个行内元素。
+
+伸缩容器中的每一个子元素都是一个伸缩项目。伸缩项目可以是任意数量的。伸缩容器外和伸缩项目内的一切元素都不受影响。简单地说，Flexbox 定义了伸缩容器内伸缩项目该如何布局。
+
 ## CSS优先级规则
 
 !important > 内联 > ID选择器 > 伪类=属性选择器=类选择器 > 元素选择器[p] > 通用选择器(*) > 继承的样式
