@@ -265,6 +265,21 @@ border-image: linear-gradient(#ddd, #000) 30 30
 </div>
 ```
 
+## CSS实现三角形
+
+上三角型：
+
+``` css
+.triangle{
+    width:0px;
+    height:0px;
+    border-style: solid;
+    border-width: 10px;
+    border-color: transparent;
+    border-bottom-color: #5E5E5E;
+}
+```
+
 ## CSS3 blur滤镜实现
 
 ``` html
