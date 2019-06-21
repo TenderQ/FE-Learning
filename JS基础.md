@@ -12,6 +12,12 @@
 - `Array.isArray(obj)`
 - `Object.prototype.toString.call(obj) === '[object Array]'`
 
+## 类数组转换为数组的方法
+
+``` javascript
+Array.prototype.slice.call(arguments);
+```
+
 ## JS深拷贝和浅拷贝
 
 - 浅拷贝是指只复制一层对象，当对象的属性是引用类型时，实质复制的是其引用，当引用指向的值改变时也会跟着变化
