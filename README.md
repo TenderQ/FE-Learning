@@ -6,6 +6,7 @@
 
 - [HTML基础](/HTML基础.md)
 - [JS基础](/JS基础.md)
+- [JS进阶](/JS进阶.md)
 - [ES6](/ES6.md)
 - [Ajax](/Ajax.md)
 - [V-DOM](/V-DOM.md)
