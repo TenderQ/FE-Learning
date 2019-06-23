@@ -136,3 +136,13 @@ cookie是不能跨域访问的，但是在二级域名是可以共享cookie的
 ## 跨域ajax请求，服务器会收到请求吗
 
 服务器会接收到请求，但是因为同源策略浏览器在接收加载资源之前对其来源进行了检查，然后限制响应内容的加载
+
+## 跨域请求传递Cookie问题
+
+原因分析：是由浏览器的同源策略导致的问题：不允许JS访问跨域的Cookie。
+举个例子，现有网站A使用域名a.example.com，网站B使用域名b.example.com，如果希望在2个网站之间共享Cookie（浏览器可以将Cookie发送给服务器），那么在设置的Cookie的时候，必须设置domain为example.com。
+
+解决方案:
+
+1. 服务器端使用CROS协议解决跨域访问数据问题时，需要设置响应消息头`Access-Control-Allow-Credentials`值为`true`。同时，还需要设置响应消息头`Access-Control-Allow-Origin`值为指定单一域名（注：不能为通配符“*”）。
+2. 客户端需要设置`Ajax`请求属性`withCredentials=true`，让`Ajax`请求都带上`Cookie`
