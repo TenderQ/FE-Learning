@@ -350,3 +350,12 @@ border-image: linear-gradient(#ddd, #000) 30 30
 - `flex`: 是`flex-grow`, `flex-shrink` 和 `flex-basis`的简写，默认值为`0 1 auto`, 后两个属性可选
 
 - `align-self`: 属性允许单个项目有与其他项目不一样的对齐方式，可覆盖容器上`align-items`属性。默认值为`auto`，表示继承父元素的align-items属性，如果没有父元素，则等同于`stretch`。属性值与`align-items`属性一致
+
+## IOS手机浏览器字体齿轮
+
+修改`-webkit-font-smoothing`属性
+
+``` css
+-webkit-font-smoothing: none; // 无抗锯齿
+-webkit-font-smoothing: antialiased | subpixel-antialiased | default; // 灰度平滑
+```
