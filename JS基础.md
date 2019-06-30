@@ -264,3 +264,8 @@ let proxy = new Proxy(target, handler);
 - ownKeys，apply，deleteProperty 等等...
 
 > 用了 Proxy 之后，Proxy代理的 this 并非指向目标对象，而是指向自身Proxy
+
+## JS去除小数位
+
+- parseInt(3.1415)
+- 3.1415 >> 0
