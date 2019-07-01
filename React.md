@@ -79,6 +79,10 @@ React组件的生命周期可以分为三个阶段：
 
     `ReactDOM`提供了一个方法用于卸载组件 `ReactDOM.unmountComponentAtNode(document.getElementById('app'));`
 
+4. 其他
+
+    - `componentWillReceiveProps(nextProps)`: 在接受父组件改变后的`props`需要重新渲染组件时触发
+
 > `render`在挂载阶段和更新阶段都会执行。挂载阶段只执行一次，但是更新阶段可以重复执行
 
 ## React diff原理
