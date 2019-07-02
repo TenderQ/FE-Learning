@@ -75,7 +75,7 @@ React组件的生命周期可以分为三个阶段：
 
 3. 卸载阶段
 
-    在组件卸载的时候，进入卸载阶段。只有一个钩子方法 `componentWillUnmount`
+    在组件卸载的时候，进入卸载阶段。只有一个钩子方法 `componentWillUnmount`, 一般在这个方法里面清除所有的计时器`clearTimeout`,`clearInterval`;移除组件中的事件监听`removeEventListener`;
 
     `ReactDOM`提供了一个方法用于卸载组件 `ReactDOM.unmountComponentAtNode(document.getElementById('app'));`
 
@@ -84,6 +84,12 @@ React组件的生命周期可以分为三个阶段：
     - `componentWillReceiveProps(nextProps)`: 在接受父组件改变后的`props`需要重新渲染组件时触发
 
 > `render`在挂载阶段和更新阶段都会执行。挂载阶段只执行一次，但是更新阶段可以重复执行
+
+在React的组件挂载及render过程中，最底层的子组件是最先完成挂载及更新的，`render`、`componentDidMount`顺序：
+底层子组件-->子组件-->子组件-->...-->顶层父组件
+
+`constructor()`构造函数、`componentWillMount`执行顺序：
+顶层父组件-->子组件-->子组件-->...-->底层子组件
 
 ## React diff原理
 
