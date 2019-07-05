@@ -67,7 +67,7 @@ React组件的生命周期可以分为三个阶段：
 
     更新过程中触发了如下钩子（方法）：
 
-    - `compoentwillReceiveProps`: 即将接受上一级的属性传递- 比较少用
+    - `compoentwillReceiveProps(nextProps)`: 即将接受上一级的属性传递- 在接受父组件改变后的`props`需要重新渲染组件时触发
     - `shouldCompnetUpdate`: 是否应该进行更新操作
     - `componentWillUpdate`: 即将进行更新操作
     - `render`: 重新渲染
@@ -81,8 +81,8 @@ React组件的生命周期可以分为三个阶段：
 
 4. 其他
 
-    - `componentWillReceiveProps(nextProps)`: 在接受父组件改变后的`props`需要重新渲染组件时触发
     - `getDerivedStateFromProps(nextProps, prevState)`: 这个生命周期的功能实际上就是将传入的`props`映射到`state`上面。`getDerivedStateFromProps`是一个静态函数，也就是这个函数不能通过this访问到class的属性，也并不推荐直接访问属性。而是应该通过参数提供的`nextProps`以及`prevState`来进行判断，根据新传入的`props`来映射到`state`。
+    - `getSnapshotBeforeUpdate(prevProps, prevState)`: 被调用于`render`之后，可以读取但无法使用DOM的时候。它使组件可以在可能更改之前从DOM捕获一些信息（例如滚动位置）。此生命周期返回的任何值都将作为参数传递给`componentDidUpdate`
 
 > `render`在挂载阶段和更新阶段都会执行。挂载阶段只执行一次，但是更新阶段可以重复执行
 
