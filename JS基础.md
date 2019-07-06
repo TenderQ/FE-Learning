@@ -269,3 +269,11 @@ let proxy = new Proxy(target, handler);
 
 - parseInt(3.1415)
 - 3.1415 >> 0
+
+## JS实现按照指定长度为数字前面补零
+
+``` js
+function PrefixInteger(num, length) {
+  return (Array(length).join('0') + num).slice(-length);
+}
+```
