@@ -214,9 +214,26 @@ counter.x // => 1
 
 foo函数里面传一个对象进行计算，计算的过程里面并不会对传入的对象进行修改，计算前后的 `counter` 对象不会发生任何变化，计算前x是 1，计算后也是 1，所以foo是纯函数
 
-## Redux Thunk 的作用
+## Redux Thunk 中间件的认识
 
-`Redux thunk` 是一个允许你编写返回一个函数而不是一个 `action` 的 `actions creators` 的中间件。如果满足某个条件，`thunk` 则可以用来延迟 `action` 的派发(`dispatch`)，这可以处理异步 `action` 的派发(`dispatch`)。
+`Redux thunk` 是一个允许你编写返回一个函数而不是一个 `action` 的 `actions creators` 的中间件。如果满足某个条件，`thunk` 则可以用来延迟 `action` 的派发(`dispatch`)，这可以处理异步 `action` 的派发(`dispatch`)。`Redux-thunk` 统一了异步和同步 `action` 的调用方式，把异步过程放在 `action` 级别解决，对 `component` 调用没有影响。
+
+``` js
+function add() {
+    return {
+        type: 'ADD',
+    }
+}
+
+function action() {
+    return (dispatch, getState) => {
+        setTimeout(() => {
+            //分发一个任务
+            dispatch(add());
+        }, 1000)
+    }
+}
+```
 
 ## React对Context的理解
 
