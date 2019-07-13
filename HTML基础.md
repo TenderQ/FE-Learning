@@ -359,3 +359,21 @@ border-image: linear-gradient(#ddd, #000) 30 30
 -webkit-font-smoothing: none; // 无抗锯齿
 -webkit-font-smoothing: antialiased | subpixel-antialiased | default; // 灰度平滑
 ```
+
+## 什么是 FOUC ?如何来避免 FOUC
+
+`FOUC` - Flash Of Unstyled Content 即文档样式闪烁, 原理很清楚：当样式表晚于结构性html加载，当加载到此样式表时，页面将停止之前的渲染。此样式表被下载和解析后，将重新渲染页面，也就出现了短暂的花屏现象。原因大致为：
+
+1. 使用import方法导入样式表
+
+    ``` CSS
+    <style type="text/css" media="all">
+    @import "../SOME.css";
+    </style>
+    ```
+
+2. 将样式表放在页面底部
+
+3. 有几个样式表，放在html结构的不同位置
+
+解决方法只要使用`link`标签将样式表放在文档`head`中
