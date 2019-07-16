@@ -277,3 +277,9 @@ function PrefixInteger(num, length) {
   return (Array(length).join('0') + num).slice(-length);
 }
 ```
+
+## 如何解决异步回调地狱
+
+- `promise`
+- `generator`
+- `async/await`
