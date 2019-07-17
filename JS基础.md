@@ -283,3 +283,20 @@ function PrefixInteger(num, length) {
 - `promise`
 - `generator`
 - `async/await`
+
+## JS函数声明与函数表达式的区别
+
+``` js
+// 函数声明
+function sum (num1, num2) {
+  return num1 + num2;
+}
+// 函数表达式
+var sum = function (num1, num2) {
+  return num1 + num2;
+}
+```
+
+1. 以函数声明的方法定义的函数，函数名是必须的，而函数表达式的函数名是可选的
+2. 以函数声明的方法定义的函数，函数可以在函数声明之前调用，而函数表达式的函数只能在声明之后调用
+3. 以函数声明的方法定义的函数并不是真正的声明，他们仅仅可以出现在全局中或者嵌套在其它函数中,但是它们不能出现在循环,条件或者try/catch/finally中,而函数表达式可以在任何地方声明.
