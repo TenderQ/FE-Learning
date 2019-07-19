@@ -61,8 +61,12 @@ ajax('GET', '/data.json').then(result => {
 
 协议、域名、端口有任何一个不同，都被当作是不同的域
 
-- jsonp （拥有'src'这个属性的标签都拥有跨域的能力）
-- CORS 服务器设置`Access-Control-Allow-Origin`
+- `jsonp` （拥有'src'这个属性的标签都拥有跨域的能力）
+- `CORS` 服务器设置`Access-Control-Allow-Origin`, 前端无须设置，若要带cookie请求，前后端都需要设置
+- `location.hash + iframe`跨域：a欲与b跨域相互通信，通过中间页c来实现。 三个页面，不同域之间利用iframe的location.hash传值，相同域之间直接js访问来通信。
+- `window.name + iframe`跨域：通过iframe的src属性由外域转向本地域，跨域数据即由iframe的window.name从外域传递到本地域。
+- `postMessage`跨域：可以跨域操作的window属性之一
+- 代理跨域：启一个代理服务器，实现数据的转发
 
 ## JSONP和callback
 
