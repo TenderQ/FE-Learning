@@ -233,3 +233,117 @@ PWA(Progressive Web App)即渐进式增强WEB应用。目的是在移动端利�
 
 1. 游览器对技术支持还不够全面， 不是每一款游览器都能100%的支持所有PWA
 2. 需要通过第三方库才能调用底层硬件（如摄像头）
+
+## JS设计模式之工厂模式
+
+工厂模式是用来创建对象的一种最常用的设计模式。不暴露创建对象的具体逻辑，而是将逻辑封装在一个函数中，那么这个函数就可以被视为一个工厂。
+工厂模式根据抽象程度的不同可以分为：简单工厂，工厂方法和抽象工厂
+
+### 简单工厂模式
+
+``` js
+let Shop = function () { };
+Shop.prototype = {
+  sell: function (model) {
+    let goods;
+    switch (model) {
+      case "A"://A类型的商品
+        goods = new A();
+        break;
+      case "B":
+        goods = new B();
+        break;
+      case "C":
+        goods = new C();
+        break;
+    }
+    return goods;
+  }
+}
+```
+
+简单工厂的优点在于，你只需要一个正确的参数，就可以获取到你所需要的对象，而无需知道其创建的具体细节。但是在函数内包含了所有对象的创建逻辑（构造函数）和判断逻辑的代码，每增加新的构造函数还需要修改判断逻辑代码。当我们的对象不是上面的3个而是30个或更多时，这个函数会成为一个庞大的超级函数，便得难以维护。所以，简单工厂只能作用于创建的对象数量较少，对象的创建逻辑不复杂时使用。
+
+### 工厂方法模式
+
+先定义一个工厂接口，这个接口定义了一个工厂方法来创建某一类型的产品，然后有任意数量的具体工厂来实现这个接口，在各自的工厂方法里创建那个类型产品的具体实例
+
+``` js
+//安全模式创建的工厂方法函数
+let UserFactory = function(role) {
+  if(this instanceof UserFactory) {
+    var s = new this[role]();
+    return s;
+  } else {
+    return new UserFactory(role);
+  }
+}
+
+//工厂方法函数的原型中设置所有对象的构造函数
+UserFactory.prototype = {
+  SuperAdmin: function() {
+    this.name = "超级管理员",
+    this.viewPage = ['首页', '通讯录', '发现页', '应用数据', '权限管理']
+  },
+  Admin: function() {
+    this.name = "管理员",
+    this.viewPage = ['首页', '通讯录', '发现页', '应用数据']
+  },
+  NormalUser: function() {
+    this.name = '普通用户',
+    this.viewPage = ['首页', '通讯录', '发现页']
+  }
+}
+
+//调用
+let superAdmin = UserFactory('SuperAdmin')
+let admin = UserFactory('Admin')
+let normalUser = UserFactory('NormalUser')
+```
+
+### 抽象工厂模式
+
+简单工厂模式和工厂方法模式都是直接生成实例，但是抽象工厂模式不同，抽象工厂模式并不直接生成实例， 而是用于对产品类簇的创建。让工厂方法模式里的工厂接口定义一系列的方法来创建一系列的产品，就成了抽象工厂
+
+``` js
+let AccountAbstractFactory = function(subType, superType) {
+  //判断抽象工厂中是否有该抽象类
+  if(typeof AccountAbstractFactory[superType] === 'function') {
+    //缓存类
+    function F() {};
+    //继承父类属性和方法
+    F.prototype = new AccountAbstractFactory[superType] ();
+    //将子类的constructor指向子类
+    subType.constructor = subType;
+    //子类原型继承父类
+    subType.prototype = new F();
+  } else {
+    throw new Error('抽象类不存在!')
+  }
+}
+//微信用户抽象类
+AccountAbstractFactory.WechatUser = function() {
+  this.type = 'wechat';
+}
+AccountAbstractFactory.WechatUser.prototype = {
+  getName: function() {
+    return new Error('抽象方法不能调用');
+  }
+}
+//普通微信用户子类
+function UserOfWechat(name) {
+  this.name = name;
+  this.viewPage = ['首页', '通讯录', '发现页']
+}
+//抽象工厂实现WechatUser类的继承
+AccountAbstractFactory(UserOfWechat, 'WechatUser');
+//子类中重写抽象方法
+UserOfWechat.prototype.getName = function() {
+  return this.name;
+}
+//实例化微信用户
+let wechatUserA = new UserOfWechat('微信小李');
+console.log(wechatUserA.getName(), wechatUserA.type); //微信小李 wechat
+let wechatUserB = new UserOfWechat('微信小王');
+console.log(wechatUserB.getName(), wechatUserB.type); //微信小王 wechat
+```
