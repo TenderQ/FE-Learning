@@ -347,3 +347,43 @@ console.log(wechatUserA.getName(), wechatUserA.type); //微信小李 wechat
 let wechatUserB = new UserOfWechat('微信小王');
 console.log(wechatUserB.getName(), wechatUserB.type); //微信小王 wechat
 ```
+
+## JS设计模式之装饰者模式
+
+> 装饰者(decorator)模式能够在不改变对象自身的基础上，在程序运行期间给对像动态的添加职责（方法或属性）。与继承相比，装饰者是一种更轻便灵活的做法。
+
+简单说：可以动态的给某个对象添加额外的职责，而不会影响从这个类中派生的其它对象。
+
+``` js
+function isAnimal(target) {
+    target.isAnimal = true
+    return target
+}
+
+// 装饰器
+@isAnimal
+class Cat {
+    // ...
+}
+console.log(Cat.isAnimal)    // true
+
+作用于类属性的装饰器：
+
+function readonly(target, name, descriptor) {
+    discriptor.writable = false
+    return discriptor
+}
+
+class Cat {
+    @readonly
+    say() {
+        console.log("meow ~")
+    }
+}
+
+var kitty = new Cat()
+kitty.say = function() {
+    console.log("woof !")
+}
+kitty.say()    // meow ~
+```
