@@ -1,4 +1,4 @@
-# HTML
+# HTML & CSS
 
 ## HTML中meta标签的作用
 
@@ -55,6 +55,29 @@ FFC(Flex Formatting Contexts)直译为"自适应格式化上下文"，`display`�
 `Flex Box` 由伸缩容器和伸缩项目组成。设置为`flex` 的容器被渲染为一个块级元素，而设置为 `inline-flex` 的容器则渲染为一个行内元素。
 
 伸缩容器中的每一个子元素都是一个伸缩项目。伸缩项目可以是任意数量的。伸缩容器外和伸缩项目内的一切元素都不受影响。简单地说，Flexbox 定义了伸缩容器内伸缩项目该如何布局。
+
+## 比较 opacity: 0、visibility: hidden、display: snone 优劣
+
+1. `display: none`
+    - DOM 结构：浏览器不会渲染 display 属性为 none 的元素，不占据空间；
+    - 事件监听：无法进行 DOM 事件监听；
+    - 性能：动态改变此属性时会引起重排，性能较差；
+    - 继承：不会被子元素继承，毕竟子类也不会被渲染；
+    - transition：transition 不支持 display
+
+2. `visibility: hidden`
+    - DOM 结构：元素被隐藏，但是会被渲染不会消失，占据空间；
+    - 事件监听：无法进行 DOM 事件监听；
+    - 性 能：动态改变此属性时会引起重绘，性能较高；
+    - 继 承：会被子元素继承，子元素可以通过设置 visibility: visible; 来取消隐藏；
+    - transition：transition 不支持 visibility
+
+3. `opacity: 0`
+    - DOM 结构：透明度为 100%，元素隐藏，占据空间；
+    - 事件监听：可以进行 DOM 事件监听；
+    - 性 能：提升为合成层，不会触发重绘，性能较高；
+    - 继 承：会被子元素继承,且子元素并不能通过 opacity: 1 来取消隐藏；
+    - transition：transition 支持 opacity
 
 ## CSS优先级规则
 
