@@ -128,9 +128,13 @@ p {font-size: 2rem}
 ``` css
 .border-bottom::after {
     content:'';
+    position: absolute;
+    left:0;
+    top:0;
     width:100%;
-    border-bottom:1px solid #000;
-    transform: scaleY(0.5);
+    height: 1px;
+    background-color: #000;
+    transform: scaleY(1);
 }
 /* 2倍屏 */
 @media only screen and (-webkit-min-device-pixel-ratio: 2.0) {
