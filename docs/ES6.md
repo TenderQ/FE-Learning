@@ -152,3 +152,11 @@ const dog = new Dog();
 `es6`模块和`commonjs`模块的相同点：
 
 - 两者都可以对模块对象内部属性的值进行改变
+
+## WeakSet 与 Set 的区别
+
+- WeakSet的成员只能是对象，而 Set 对象都可以
+- WeakSet 对象中储存的对象值都是弱引用的，可以被垃圾回收机制回收
+- WeakSet不能遍历，只有add、delete和has三个方法
+
+> WeakSet用来做什么？储存DOM节点，这样移除DOM时就可以不用担心内存泄漏了
