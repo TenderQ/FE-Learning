@@ -9,8 +9,11 @@
 ## JS判断数组的方式
 
 - `obj instanceof Array`
+  使用`instanceof`判断一个对象是否为数组，`instanceo`f 会判断这个对象的原型链上是否会找到对应的 Array 的原型，找到返回 true，否则返回 false。但`instanceof` 只能用来判断对象类型，原始类型不可以。并且所有对象类型 `instanceof Object` 都是 true。
 - `Array.isArray(obj)`
+  当检测Array实例时，`Array.isArray` 优于 `instanceof`，因为 `Array.isArray` 可以检测出 iframes
 - `Object.prototype.toString.call(obj) === '[object Array]'`
+  这种方法对于所有基本的数据类型都能进行判断，即使是 null 和 undefined。Object.prototype.toString.call() 常用于判断浏览器内置对象时
 
 ## 类数组转换为数组的方法
 
