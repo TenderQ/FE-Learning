@@ -253,30 +253,6 @@ W3C模型规定任何事件首先会被捕获直到遇到目标元素，然后�
 
 对于同一个事件，监听捕获和冒泡，分别对应相应的处理函数，监听到捕获事件，先暂缓执行，直到冒泡事件被捕获后再执行捕获之间。或者使用订阅发布模式，在捕获阶段中订阅事件处理方法，在冒泡阶段发布事件
 
-## ES6 Proxy介绍
-
-`Proxy` 用于修改某些操作的默认行为，等于是在语言层面做出了修改，也就是对编程语言进行改动。具体来说，`Proxy`是一种机制，用来拦截外界对目标对象的访问，可以对这些访问进行过滤或者改写，所以`Proxy`更像是目标对象的代理器。
-
-ES6 原生提供Proxy构造函数，用来生成Proxy实例：
-
-``` js
-let proxy = new Proxy(target, handler);
-```
-
-`target` 是要代理的目标对象;
-`handler` 也是一个对象，用来定义拦截的具体行为；如果拦截具有多个操作，就可以这样定义handler {fn, ….}
-
-`handler` 能代理的一些常用的方法有：
-
-- get：读取
-- set：修改
-- has：判断对象是否有该属性
-- construct：构造函数
-- defineProperty：拦截 `Object.defineProperty(proxy, propKey, propDesc)`、`Object.defineProperties(proxy, propDescs)`，返回一个布尔值
-- ownKeys，apply，deleteProperty 等等...
-
-> 用了 Proxy 之后，Proxy代理的 this 并非指向目标对象，而是指向自身Proxy
-
 ## JS去除小数位
 
 - parseInt(3.1415)

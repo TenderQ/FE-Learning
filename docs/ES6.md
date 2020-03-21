@@ -160,3 +160,27 @@ const dog = new Dog();
 - WeakSet不能遍历，只有add、delete和has三个方法
 
 > WeakSet用来做什么？储存DOM节点，这样移除DOM时就可以不用担心内存泄漏了
+
+## ES6 Proxy介绍
+
+`Proxy` 用于修改某些操作的默认行为，等于是在语言层面做出了修改，也就是对编程语言进行改动。具体来说，`Proxy`是一种机制，用来拦截外界对目标对象的访问，可以对这些访问进行过滤或者改写，所以`Proxy`更像是目标对象的代理器。
+
+ES6 原生提供Proxy构造函数，用来生成Proxy实例：
+
+``` js
+let proxy = new Proxy(target, handler);
+```
+
+`target` 是要代理的目标对象;
+`handler` 也是一个对象，用来定义拦截的具体行为；如果拦截具有多个操作，就可以这样定义handler {fn, ….}
+
+`handler` 能代理的一些常用的方法有：
+
+- get：读取
+- set：修改
+- has：判断对象是否有该属性
+- construct：构造函数
+- defineProperty：拦截 `Object.defineProperty(proxy, propKey, propDesc)`、`Object.defineProperties(proxy, propDescs)`，返回一个布尔值
+- ownKeys，apply，deleteProperty 等等...
+
+> 用了 Proxy 之后，Proxy代理的 this 并非指向目标对象，而是指向自身Proxy
