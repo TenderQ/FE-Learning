@@ -288,3 +288,32 @@ var sum = function (num1, num2) {
 1. 以函数声明的方法定义的函数，函数名是必须的，而函数表达式的函数名是可选的
 2. 以函数声明的方法定义的函数，函数可以在函数声明之前调用，而函数表达式的函数只能在声明之后调用
 3. 以函数声明的方法定义的函数并不是真正的声明，他们仅仅可以出现在全局中或者嵌套在其它函数中,但是它们不能出现在循环,条件或者try/catch/finally中,而函数表达式可以在任何地方声明.
+
+## new()到底做了些什么
+
+创建一个新实例，必须使用 `new` 操作符。以这种方式调用构造函数实际上会经历以下步骤：
+
+1. 创建一个新对象；
+2. 将构造函数的作用域赋给新对象（因此 this 就指向了这个新对象）
+3. 执行构造函数中的代码（为这个新对象添加属性）
+4. 返回新对象
+
+动手实现
+
+``` js
+const newMethod = function (Func, ...rest) {
+  var obj = {};
+  obj.__proto__ = Func.prototype;
+  Func.apply(obj, rest);
+  return Func;
+};
+
+const newMethod2 = function (Func, ...rest) {
+  // 1.以构造器的prototype属性为原型，创建新对象；
+  let obj = Object.create(Func.prototype);
+  // 2.将this和调用参数传给构造器执行
+  Func.apply(obj, rest);
+  // 3.返回第一步的对象
+  return obj;
+};
+```
