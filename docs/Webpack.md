@@ -140,3 +140,39 @@ module.exports = {
         }
     })
     ```
+
+## Babel 中Preset和Plugin
+
+`Babel`编译过程分为三个阶段：解析、转换和打印输出。
+
+`Plugin`: 插件用于转换将ES6代码转成ES5，插件一般尽可能拆成小的力度，开发者可以按需引进。
+
+`Preset`: 可以作为 `Babel` 插件的组合，比如`@babel/preset-env`, `@babel/preset-react`, `@babel/preset-typescript`
+
+### Plugin与Preset执行顺序
+
+可以同时使用多个Plugin和Preset，此时，它们的执行顺序非常重要
+
+- 先执行完所有`Plugin`，再执行`Preset`。
+- 多个`Plugin`，按照声明次序顺序执行（从前往后）。
+- 多个`Preset`，按照声明次序逆序执行（从后往前）。
+
+比如.babelrc配置如下：
+
+``` json
+{
+  "plugins": [
+    "transform-react-jsx",
+    "transform-async-to-generator"
+  ],
+  "presets": [
+    "es2015",
+    "es2016"
+  ]
+}
+```
+
+那么执行的顺序为：
+
+1. Plugin：transform-react-jsx、transform-async-to-generator
+2. Preset：es2016、es2015
