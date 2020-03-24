@@ -379,3 +379,28 @@ React的事件系统和浏览器事件系统相比，主要增加了两个特性
 ## React高阶组件（HOC）
 
 高阶组件接收React组件作为参数，并且返回一个新的React组件。高阶组件本质上也是一个函数，并不是一个组件。
+
+## React中受控组件和非受控组件的区别
+
+- 受控组件
+
+    在React中，每当表单的状态发生变化时，都会被写入到组件的state中，这种组件在React被称为受控组件。受控组件中，组件渲染的状态与它的value或者checked相对应。React通过这种方式消除了组件的局部状态。
+
+    ``` js
+    <input
+        value={this.state.value}
+        onChange={(e) => this.setState({value: e.target.value})}
+    >
+    ```
+
+- 非受控组件
+
+    简单的说，如果一个表单组件没有`value props`（单选按钮和复选框对应的是`checked props`）就可以称为非受控组件。这样，我们可以使用`defaultValue`和`defaultChecked`来表示组件的默认状态。在React中，非受控组件是一种反模式，它的值不受组件自身的`state`或者`props`控制，通常需要为其添加`ref prop`来访问渲染后的底层DOM元素。
+
+    ``` js
+    <input
+        defaultValue={this.state.value}
+    >
+    ```
+
+受控组件和非受控组件的最大区别就是，非受控组件状态并不会受应用状态的控制，应用中也多了局部组件状态，而受控组件的值来源于`state`
