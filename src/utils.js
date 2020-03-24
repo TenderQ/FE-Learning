@@ -10,12 +10,12 @@
 const throttle = (func, delay) => {
   let last = new Date();
 
-  return function() {
-      let now = new Date();
-      if (now - last >= delay) {
-          func.apply(this, Array.prototype.slice.call(arguments))
-          last = now;
-      }
+  return function () {
+    let now = new Date();
+    if (now - last >= delay) {
+      func.apply(this, Array.prototype.slice.call(arguments))
+      last = now;
+    }
   }
 }
 
@@ -29,7 +29,7 @@ const throttle = (func, delay) => {
  */
 const debounce = (func, delay) => {
   let timer = null
-  return function() {
+  return function () {
     if (timer) clearTimeout(timer)
     timer = setTimeout(() => {
       func.apply(this, Array.prototype.slice.call(arguments))
@@ -71,7 +71,7 @@ const currying = function (func) {
   args = args || [];
   let len = func.length;
   let self = this;
-  return function() {
+  return function () {
     let _args = Array.prototype.slice.call(arguments)
     Array.prototype.push.apply(args, _args);
 
@@ -91,7 +91,7 @@ const currying = function (func) {
  * add(1)(2)(3)(4)(5) = 15;
  * @returns
  */
-function add () {
+function add() {
   let args = Array.prototype.slice.call(arguments)
   let sum = 0;
 
@@ -100,8 +100,8 @@ function add () {
     return tempFunc
   }
 
-  tempFunc.toString = function() {
-    return args.reduce(function(prev, next) { return prev + next}, sum)
+  tempFunc.toString = function () {
+    return args.reduce(function (prev, next) { return prev + next }, sum)
   }
 
   return tempFunc
@@ -140,4 +140,99 @@ class BaseAjax {
   post(url, data) {
     return this.request('post', url, data);
   }
+}
+
+
+// var tree = {
+//   value: "-",
+//   left: {
+//       value: '+',
+//       left: {
+//           value: 'a',
+//       },
+//       right: {
+//           value: '*',
+//           left: {
+//               value: 'b',
+//           },
+//           right: {
+//               value: 'c',
+//           }
+//       }
+//   },
+//   right: {
+//       value: '/',
+//       left: {
+//           value: 'd',
+//       },
+//       right: {
+//           value: 'e',
+//       }
+//   }
+// }
+// 二叉树深度优先遍历 - 递归版
+function dfs_1(node) {
+  let result = []
+
+  let handler = (node) => {
+    if (node) {
+      result.push(node.value)
+      handler(node.left)
+      handler(node.right)
+    }
+  }
+  handler(node)
+
+  return result
+}
+
+// 二叉树深度优先遍历 - 非递归版
+function dfs_2(node) {
+  let result = []
+  let stack = [node]
+
+  while (stack.length) {
+    let item = stack.pop();
+    result.push(item.value)
+    item.right && stack.push(item.right)
+    item.left && stack.push(item.left)
+  }
+
+  return result
+}
+
+// 二叉树广度优先遍历 递归
+function bfs_1(tree) {
+  let result = []
+  let stack = [tree]
+  let count = 0
+
+  let hadnler = (tree) => {
+    let node = stack[count]
+    if (node) {
+      result.push(node.value)
+      if (node.left) stack.push(node.left);
+      if (node.right) stack.push(node.right);
+      count++;
+      hadnler();
+    }
+  }
+
+  handler(tree)
+  return result
+}
+
+// 二叉树广度优先遍历 非递归
+function bfs_2(node) {
+  let result = [];
+  let queue = [];
+  queue.push(node);
+  let pointer = 0;
+  while (pointer < queue.length) {
+    let node = queue[pointer++];
+    result.push(node.value);
+    node.left && queue.push(node.left);
+    node.right && queue.push(node.right);
+  }
+  return result;
 }
