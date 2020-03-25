@@ -41,16 +41,23 @@ Array.prototype.slice.call(arguments);
 - 深拷贝是指复制对象的所有层级
 
   ``` js
-    function deepCopy(source) {
-      if (!source) {
-        return source
+    function deepCopy(obj, hash = new WeakMap()) {
+      if (obj instanceif RegExp) return new RegExp(obj)
+      if (obj instanceif Date) return new Date(obj)
+      if (!obj || typeof obj !== 'object') {
+        return obj
       }
-      let sourceCopy = source instanceof Array ? [] : {}
-      for (let item in source) {
-        sourceCopy[item] =
-          typeof source[item] === 'object' ? deepCopy(source[item]) : source[item]
+      if (hash.has(obj)) {
+        return hash.get(obj)
       }
-      return sourceCopy
+      let objCopy = new obj.constractor();
+      hash.set(obj, objCopy);
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          objCopy[key] = deepClone(obj[key], hash)
+        }
+      }
+      return objCopy
     }
 
     // 另一种方案
