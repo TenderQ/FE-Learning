@@ -311,8 +311,8 @@ var sum = function (num1, num2) {
 const newMethod = function (Func, ...rest) {
   var obj = {};
   obj.__proto__ = Func.prototype;
-  Func.apply(obj, rest);
-  return Func;
+  var result = Func.apply(obj, rest);
+  return result && typeof result === 'object' ? result || obj;
 };
 
 const newMethod2 = function (Func, ...rest) {
