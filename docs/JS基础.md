@@ -6,6 +6,48 @@
 - 引用数据类型：`Object(Array，Date，RegExp，Function)`
 - 基本数据类型保存在栈内存中，引用数据类型保存在堆内存中
 
+## substring、substr以及slice和splice的用法和区别
+
+- `substring(start,stop)`表示返回从start开始到stop处之间的新字符串，其长度为stop减start。包含start，但不包含stop，且**不修改原字符串**。如果stop不填，那表示从start截取到字符串结尾。如果start或stop为负数，那么方法在执行前会先将负数变为0
+
+``` js
+var str = "0123456789";
+console.log(str.substring(1,5)) // "1234", length为 5-1
+console.log(str.substring(1)) // "123456789"
+console.log(str.substring(8, 4)) //"4567"
+console.log(str.substring(-2, 6))// "012345"
+console.log(str.substring(2, -6))// "01"
+```
+
+- `substr(start,length)`表示返回从`start`开始包含`length`长度的新字符串，包含`start`，且**不修改原字符串**，与`substring`相比，第二个参数由代表结束的下标`stop`变成了规定新字符串长度的`length`
+
+``` js
+var str = "0123456789";
+console.log(str.substr(1,5)) // "12345", length为5
+console.log(str.substr(2,6), str) //"234567" "0123456789"
+console.log(str.substr(-1)) // "9"
+```
+
+- `slice(start,stop)`表示截取从下标`start`到下标`stop`（不包括该元素）的之间的元素，并**返回新数组/新字符串，并不修改原数组/原字符串**, `slice`可操作数组和字符串, 如果`start`比`stop`大（不会互换），或`start`与`stop`相等，则截取的为空, 如果`start`或者`stop`为负数，那么负数的选项从数组尾部开始算起的位置
+
+``` js
+var str = "0123456789";
+var arr = [0,1,2,3,4,5,6,7,8,9];
+console.log(str.slice(1,6)) // "12345"
+console.log(arr.slice(1,6)) // [1,2,3,4,5]
+console.log(arr.slice(3,3)) // []
+console.log(arr.slice(6,5)) // []
+console.log(arr.slice(-6, 8)) // [4,5,6,7]
+```
+
+- `splice(start,length,items)`表示从下标`start`处截取`length`长度（与substr有点像）的元素后，在start处为原数组添加items，并返回被截取的新数组，**`splice`会直接修改原数组**, `splice`只能操作数组
+
+``` js
+var arr = [0,1,2,3,4,5,6,7,8,9];
+console.log(arr.splice(1,3,2,3,4)) // [1,2,3]
+console.log(arr); // [0,2,3,4,4,5,6,7,8,9] 原数组被截取走了1,2,3，并加入了2,3,4
+```
+
 ## JS判断数组的方式
 
 - `obj instanceof Array`
