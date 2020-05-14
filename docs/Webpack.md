@@ -176,3 +176,21 @@ module.exports = {
 
 1. Plugin：transform-react-jsx、transform-async-to-generator
 2. Preset：es2016、es2015
+
+## Webpack HotModuleReplacementPlugin的运行机制
+
+`webapck`在编译的过程中，将`HMR Runtime`嵌入到`bundle`中；编译结束后，`webpack`对项目代码文件进行监视，发现文件变动重新编译变动的模块，同时通知`HMR Runtime`，然后`HMR Runtime`加载变动的模块文件，尝试执行热更新操作。更新的逻辑是：先检查模块是否能支持`accept`方法，不支持的话，则冒泡查找模块树的父节点，直到入口模块，`accept`方法也就是模块`hot-replace`的`handler`
+
+`HMR Runtime`是`webapck`内嵌到前端页面的代码，主要提供来能给个职能check和apply。check用来下载最新模块代码，runtime能够接收后端发送的事件和发送请求；apply用于更新模块，主要将要更新的模块打上tag，然后调用模块的（也有可能是父模块）的更新handler执行更新。
+
+### 更新流程
+
+热更新开启后，当webpack打包时，会向client端注入一段HMR runtime代码，同时server端（webpack-dev-server或是webpack-hot-middware）启动了一个HMR服务器，它通过websocket和注入的runtime进行通信。
+
+当webpack检测到文件修改后，会重新构建，并通过ws向client端发送更新消息，浏览器通过jsonp拉取更新过的模块，回调触发模块热更新逻辑。
+
+1. 修改了一个或多个文件。
+2. 文件系统接收更改并通知`Webpack`。
+3. `Webpack`重新编译构建一个或多个模块，并通知HMR服务器进行了更新。
+4. `HMR Server`使用`websockets`通知HMR Runtime需要更新。HMR运行时通过HTTP请求这些更新（jsonp）。
+5. `HMR`运行时替换更新中的模块，如果确定这些模块无法更新，则触发整个页面刷新
